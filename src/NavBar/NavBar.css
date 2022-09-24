@@ -1,0 +1,4 @@
+.div-center {
+    left: 50%;
+    transform: translateX(-50%);
+}
