@@ -34,7 +34,7 @@ const Input = props => {
                 value={content}
                 onBlur={touchHandler}
             />
-            {!isValid && isTouch && (<p>{props.errorMsg}</p>)}
+            {!isValid && isTouch && (<p className="text-red-600">{props.errorMsg}</p>)}
         </div>
     );
 };

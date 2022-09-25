@@ -1,14 +1,30 @@
-import NavBar from "./NavBar/NavBar";
-
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-function App() {
+import NavBar from "./NavBar/NavBar";
+import { AuthContext } from './shared/context/auth-context';
+import { useAuth } from './shared/hooks/auth-hook';
+
+const App = () => {
+
+  const {token, logIn, logOut, userId} = useAuth();
+
   return (
-    <div>
-      <Router >
-        <NavBar />
-      </Router>
-    </div>
+    <AuthContext.Provider 
+      value={{
+        isLoggedIn: !!token,
+        token,
+        userId,
+        login: logIn, 
+        logout: logOut
+      }}
+    >
+      <div>
+        <Router >
+          <NavBar />
+        </Router>
+      </div>
+    </AuthContext.Provider>
   );
 }
 
