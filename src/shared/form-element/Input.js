@@ -23,8 +23,26 @@ const Input = props => {
         setIsTouch(true);
     };
 
+    if (props.type === "textarea") {
+        return (
+            <div className={`mb-4 ${props.className || "w-64"}`}>
+                <label className="block">{props.title}</label>
+                <textarea 
+                    id={props.id}
+                    type={props.type} 
+                    className="w-full" 
+                    onChange={changeHandler}
+                    value={content}
+                    onBlur={touchHandler}
+                    rows={5}
+                />
+                {!isValid && isTouch && (<p className="text-red-600">{props.errorMsg}</p>)}
+            </div>
+        );
+    }
+
     return (
-        <div className="mb-4 w-64">
+        <div className={`mb-4 ${props.className || "w-64"}`}>
             <label className="block">{props.title}</label>
             <input 
                 id={props.id}

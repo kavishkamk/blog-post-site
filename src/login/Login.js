@@ -2,15 +2,13 @@ import React, { useCallback, useReducer, useContext } from "react";
 import Swal from 'sweetalert2'
 
 import Input from "../shared/form-element/Input";
-import Avatar from "../shared/form-element/Avatar";
-import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH, VALIDATOR_REQUIRE, VALIDATOR_EQUAL } from "../shared/util/validators";
+import { VALIDATOR_EMAIL, VALIDATOR_MINLENGTH } from "../shared/util/validators";
 import Button from "../shared/form-element/Button";
 import { useHttpClient } from "../shared/hooks/http-hook";
 import { AuthContext } from "../shared/context/auth-context";
 import LoadingSpinner from "../shared/ui-elements/LoadingSpinner";
 
-import "./Registration.css";
-import ProfileImg from "../assets/images/unknownPerson.jpg";
+import "./Login.css";
 import { CloseIcon } from "../assets/Icons/Icon";
 
 const fromReduser = (state, action) => {
@@ -48,7 +46,7 @@ const fromReduser = (state, action) => {
     }
 };
 
-const Registration = props => {
+const Login = props => {
 
     const { sendRequest, error, isLoading, clearError } = useHttpClient();
 
@@ -57,14 +55,6 @@ const Registration = props => {
     // handle the form input
     const [inputState, dispatch] = useReducer(fromReduser, {
         input: {
-            firstName: {
-                value: "",
-                isValid: false
-            },
-            lastName: {
-                value: "",
-                isValid: false
-            },
             email: {
                 value: "",
                 isValid: false
@@ -72,14 +62,6 @@ const Registration = props => {
             password: {
                 value: "",
                 isValid: false
-            },
-            cpassword: {
-                value: "",
-                isValid: false
-            },
-            image: {
-                value: "",
-                isValid: true
             }
         },
         isValid: false
@@ -93,22 +75,20 @@ const Registration = props => {
     // form submit handler
     const submitHandler = async event => {
         event.preventDefault();
-        
-        try {
-            const formData = new FormData();
-            formData.append("firstName", inputState.input.firstName.value);
-            formData.append("lastName", inputState.input.lastName.value);
-            formData.append("password", inputState.input.password.value);
-            formData.append("email", inputState.input.email.value);
 
-            if (inputState.input.image.value && inputState.input.image.value !== "unknownPerson.jgp") {
-                formData.append("image", inputState.input.image.value);
-            }
-            
-            const responseData = await sendRequest("users/signup",
+        try {
+            const responseData = await sendRequest(
+                "users/login",
                 "POST",
-                formData
+                JSON.stringify({
+                    password: inputState.input.password.value,
+                    email: inputState.input.email.value,
+                }),
+                {
+                    "Content-Type": "application/json"
+                }
             );
+
             auth.login(responseData.userId, responseData.token, responseData.image);
             props.onClose();
         } catch (err) {
@@ -129,7 +109,7 @@ const Registration = props => {
                 </div>
             }
 
-            <div className="absolute reg-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm">
+            <div className="absolute log-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm">
 
                 <div 
                     className="absolute top-1 right-1 cursor-pointer"
@@ -139,35 +119,7 @@ const Registration = props => {
                 </div>
 
                 <form className="flex">
-                    <div className="flex justify-center items-center mr-8">
-                        <Avatar 
-                            id="image"
-                            src ={ProfileImg} 
-                            className="h-52 w-52 object-cover rounded-full"
-                            hoverClasses="rounded-b-full hover:rounded-full" 
-                            isEditable={true}
-                            title="Change"
-                            onInput={inputHandler}
-                            errorText="Please select a image"
-                        />
-                    </div>
                     <div>
-                        <Input 
-                            id="firstName"
-                            type="text" 
-                            title="First Name" 
-                            onInput={inputHandler}
-                            validators={[VALIDATOR_REQUIRE()]} 
-                            errorMsg="Please Enter a valid name."
-                        />
-                        <Input 
-                            id="lastName"
-                            type="text" 
-                            title="Last Name"
-                            onInput={inputHandler}
-                            validators={[VALIDATOR_REQUIRE()]} 
-                            errorMsg="Please Enter a valid name."
-                        />
                         <Input 
                             id="email"
                             type="email" 
@@ -184,14 +136,6 @@ const Registration = props => {
                             validators={[VALIDATOR_MINLENGTH(6)]} 
                             errorMsg="Please enter at least 6 characters."
                         />
-                        <Input 
-                            id="cpassword"
-                            type="password" 
-                            title="Confirm Password" 
-                            onInput={inputHandler}
-                            validators={[VALIDATOR_EQUAL(inputState.input.password.value)]} 
-                            errorMsg="Please enter same password."
-                        />
                         <Button 
                             type="submit"
                             disabled={!inputState.isValid}
@@ -206,4 +150,4 @@ const Registration = props => {
     );
 };
 
-export default Registration;
+export default Login;

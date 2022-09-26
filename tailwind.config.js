@@ -10,6 +10,7 @@ module.exports = {
         'mercury': '#E2E2E2',
         'pgray': '#ccc',
         'dustygray': '#979797',
+        'mine-shaft': '#282828',
       },
     },
   },
