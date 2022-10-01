@@ -29,37 +29,37 @@ const NavBar = props => {
 
             {
                 (isRegistrationDisplay || isLoginDisplay)
-                    &&
-                        <BackdropBlur />
+                &&
+                <BackdropBlur />
             }
 
             {
                 // registration form
                 isRegistrationDisplay
-                    && 
-                    <Registration 
-                        onClose={registrationCloseHandler}
-                    />
+                &&
+                <Registration
+                    onClose={registrationCloseHandler}
+                />
             }
 
             {
                 // login form
                 isLoginDisplay
-                    && 
-                    <Login 
-                        onClose={loginCloseHandler}
-                    />
+                &&
+                <Login
+                    onClose={loginCloseHandler}
+                />
             }
 
             {/* navigation bar */}
-            <div className="flex px-4 bg-wild-sand py-4 relative">
+            <div className="flex px-4 bg-wild-sand py-4 relative drop-shadow-xl">
                 <div className="text-2xl">𝖇𝖑𝖔𝖌</div>
                 <div className="flex absolute div-center">
-                    <NavLinks title="Home" />
+                    <NavLinks title="Home" to={"/"} />
                     {/* <NavLinks title="About" /> */}
                     {
-                        auth.isLoggedIn && 
-                            <NavLinks title="Create" to={"/createBlog"}/>
+                        auth.isLoggedIn &&
+                        <NavLinks title="Create" to={"/createBlog"} />
                     }
                 </div>
                 <div className="flex ml-auto">
@@ -67,23 +67,23 @@ const NavBar = props => {
                         auth.isLoggedIn && <Button title="Logout" onClick={auth.logout} />
                     }
                     {
-                        !auth.isLoggedIn && <Button title="Login" onClick={() => setIsLoginDisplay(true)}/>
+                        !auth.isLoggedIn && <Button title="Login" onClick={() => setIsLoginDisplay(true)} />
                     }
                     {
-                        !auth.isLoggedIn && <Button title="Registration" onClick={() => setIsRegistrationDisplay(true)}/>
+                        !auth.isLoggedIn && <Button title="Registration" onClick={() => setIsRegistrationDisplay(true)} />
                     }
-                    
+
                     {
-                        auth.isLoggedIn && 
+                        auth.isLoggedIn &&
                         <div className="flex justify-center items-center">
-                            <img 
+                            <img
                                 src={
-                                    !process.env.REACT_APP_ASSET_URL.auth 
-                                        ? 
-                                            `${process.env.REACT_APP_ASSET_URL}${auth.image}` 
-                                        : 
-                                            `${process.env.REACT_APP_ASSET_URL}upload/images/unknownPerson.jpg`
-                                    } 
+                                    !process.env.REACT_APP_ASSET_URL.auth
+                                        ?
+                                        `${process.env.REACT_APP_ASSET_URL}${auth.image}`
+                                        :
+                                        `${process.env.REACT_APP_ASSET_URL}upload/images/unknownPerson.jpg`
+                                }
                                 alt="profile"
                                 className="w-8 h-8 rounded-full"
                             />

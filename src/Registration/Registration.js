@@ -86,14 +86,14 @@ const Registration = props => {
     });
 
     // handle the input values
-    const inputHandler = useCallback ((id, value, isValid) => {
-        dispatch({type: "INPUT_CHANGE", id: id, value: value, isValid: isValid });
+    const inputHandler = useCallback((id, value, isValid) => {
+        dispatch({ type: "INPUT_CHANGE", id: id, value: value, isValid: isValid });
     }, []);
 
     // form submit handler
     const submitHandler = async event => {
         event.preventDefault();
-        
+
         try {
             const formData = new FormData();
             formData.append("firstName", inputState.input.firstName.value);
@@ -104,7 +104,7 @@ const Registration = props => {
             if (inputState.input.image.value && inputState.input.image.value !== "unknownPerson.jgp") {
                 formData.append("image", inputState.input.image.value);
             }
-            
+
             const responseData = await sendRequest("users/signup",
                 "POST",
                 formData
@@ -122,16 +122,16 @@ const Registration = props => {
 
     return (
         <React.Fragment>
-            
-            {isLoading && 
+
+            {isLoading &&
                 <div className="absolute z-50 div-center-sereen">
                     <LoadingSpinner />
                 </div>
             }
 
-            <div className="absolute reg-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm">
+            <div className="absolute reg-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm border-2 border-black">
 
-                <div 
+                <div
                     className="absolute top-1 right-1 cursor-pointer"
                     onClick={props.onClose}
                 >
@@ -140,11 +140,11 @@ const Registration = props => {
 
                 <form className="flex">
                     <div className="flex justify-center items-center mr-8">
-                        <Avatar 
+                        <Avatar
                             id="image"
-                            src ={ProfileImg} 
+                            src={ProfileImg}
                             className="h-52 w-52 object-cover rounded-full"
-                            hoverClasses="rounded-b-full hover:rounded-full" 
+                            hoverClasses="rounded-b-full hover:rounded-full"
                             isEditable={true}
                             title="Change"
                             onInput={inputHandler}
@@ -152,47 +152,47 @@ const Registration = props => {
                         />
                     </div>
                     <div>
-                        <Input 
+                        <Input
                             id="firstName"
-                            type="text" 
-                            title="First Name" 
+                            type="text"
+                            title="First Name"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_REQUIRE()]} 
+                            validators={[VALIDATOR_REQUIRE()]}
                             errorMsg="Please Enter a valid name."
                         />
-                        <Input 
+                        <Input
                             id="lastName"
-                            type="text" 
+                            type="text"
                             title="Last Name"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_REQUIRE()]} 
+                            validators={[VALIDATOR_REQUIRE()]}
                             errorMsg="Please Enter a valid name."
                         />
-                        <Input 
+                        <Input
                             id="email"
-                            type="email" 
-                            title="Email" 
+                            type="email"
+                            title="Email"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_EMAIL()]} 
+                            validators={[VALIDATOR_EMAIL()]}
                             errorMsg="Please Enter a valid email."
                         />
-                        <Input 
+                        <Input
                             id="password"
-                            type="password" 
-                            title="Password" 
+                            type="password"
+                            title="Password"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_MINLENGTH(6)]} 
+                            validators={[VALIDATOR_MINLENGTH(6)]}
                             errorMsg="Please enter at least 6 characters."
                         />
-                        <Input 
+                        <Input
                             id="cpassword"
-                            type="password" 
-                            title="Confirm Password" 
+                            type="password"
+                            title="Confirm Password"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_EQUAL(inputState.input.password.value)]} 
+                            validators={[VALIDATOR_EQUAL(inputState.input.password.value)]}
                             errorMsg="Please enter same password."
                         />
-                        <Button 
+                        <Button
                             type="submit"
                             disabled={!inputState.isValid}
                             onClick={submitHandler}

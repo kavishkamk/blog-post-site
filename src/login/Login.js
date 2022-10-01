@@ -68,8 +68,8 @@ const Login = props => {
     });
 
     // handle the input values
-    const inputHandler = useCallback ((id, value, isValid) => {
-        dispatch({type: "INPUT_CHANGE", id: id, value: value, isValid: isValid });
+    const inputHandler = useCallback((id, value, isValid) => {
+        dispatch({ type: "INPUT_CHANGE", id: id, value: value, isValid: isValid });
     }, []);
 
     // form submit handler
@@ -102,16 +102,16 @@ const Login = props => {
 
     return (
         <React.Fragment>
-            
-            {isLoading && 
+
+            {isLoading &&
                 <div className="absolute z-50 div-center-sereen">
                     <LoadingSpinner />
                 </div>
             }
 
-            <div className="absolute log-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm">
+            <div className="absolute log-div-center bg-wild-sand px-6 py-8 z-30 rounded-md text-sm border-2 border-black">
 
-                <div 
+                <div
                     className="absolute top-1 right-1 cursor-pointer"
                     onClick={props.onClose}
                 >
@@ -120,23 +120,23 @@ const Login = props => {
 
                 <form className="flex">
                     <div>
-                        <Input 
+                        <Input
                             id="email"
-                            type="email" 
-                            title="Email" 
+                            type="email"
+                            title="Email"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_EMAIL()]} 
+                            validators={[VALIDATOR_EMAIL()]}
                             errorMsg="Please Enter a valid email."
                         />
-                        <Input 
+                        <Input
                             id="password"
-                            type="password" 
-                            title="Password" 
+                            type="password"
+                            title="Password"
                             onInput={inputHandler}
-                            validators={[VALIDATOR_MINLENGTH(6)]} 
+                            validators={[VALIDATOR_MINLENGTH(6)]}
                             errorMsg="Please enter at least 6 characters."
                         />
-                        <Button 
+                        <Button
                             type="submit"
                             disabled={!inputState.isValid}
                             onClick={submitHandler}
